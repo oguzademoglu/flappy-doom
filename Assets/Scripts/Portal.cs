@@ -10,13 +10,6 @@ public class Portal : MonoBehaviour
     {
         float playerX = GameObject.FindGameObjectWithTag("Player").transform.position.x;
 
-        // // Oyuncunun 10 birim arkasındaysa yok et
-        // if (transform.position.x < playerX - 20f)
-        // {
-        //     Destroy(gameObject);
-        // }
-
-
         // Oyuncu portalın hizasını geçti ama skoru almadıysa = öldü
         if (!hasCheckedPass && transform.position.x + 7f < playerX)
         {
