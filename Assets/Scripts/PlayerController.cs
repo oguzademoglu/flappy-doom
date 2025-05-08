@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +10,18 @@ public class PlayerController : MonoBehaviour
 
     public int maxHealth = 3;
     private int currentHealth;
+
+    public int comboCount = 0;
+
+
+    public float slowMoDuration = 1.5f;
+    public float slowTimeScale = 0.3f;
+    private bool hasUsedSlowMo = false;
+    private bool isSlowingTime = false;
+
+
+    public Volume sloweMoVolume;
+
 
     private Rigidbody2D rb;
     private HealthUI healthUI;
@@ -22,6 +36,13 @@ public class PlayerController : MonoBehaviour
     [System.Obsolete]
     void Update()
     {
+        // Space tuşu ile slow motion (test için)
+        if (Input.GetKeyDown(KeyCode.Space) && !isSlowingTime && !hasUsedSlowMo)
+        {
+            StartCoroutine(SlowTime());
+        }
+
+
         // Mouse click ya da ekrana dokunma
         if (Input.GetMouseButtonDown(0)) // Mobilde de çalışır
         {
@@ -52,6 +73,7 @@ public class PlayerController : MonoBehaviour
     [System.Obsolete]
     public void TakeDamage(int damage, Transform hitSource)
     {
+        comboCount = 0;
         currentHealth -= damage;
         Debug.Log($"currentHealth: {currentHealth}");
 
@@ -76,5 +98,25 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
             GameManager.Instance.GameOver();
+    }
+
+
+    IEnumerator SlowTime()
+    {
+        isSlowingTime = true;
+        hasUsedSlowMo = true;
+
+        sloweMoVolume.weight = 1f;
+
+        Time.timeScale = slowTimeScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        yield return new WaitForSecondsRealtime(slowMoDuration);
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+        sloweMoVolume.weight = 0f;
+
+        isSlowingTime = false;
     }
 }

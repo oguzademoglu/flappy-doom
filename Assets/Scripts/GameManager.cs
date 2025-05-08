@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public int score = 0;
 
 
+    public int coins = 0;
+    public TextMeshProUGUI coinText;
+
+
     void Awake()
     {
         if (Instance == null)
@@ -32,6 +36,19 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText != null)
             scoreText.text = "Score: " + score.ToString();
+    }
+
+
+    public void AddCoins(int amount)
+    {
+        coins += amount;
+        UpdateCoinUI();
+    }
+
+    void UpdateCoinUI()
+    {
+        if (coinText != null)
+            coinText.text = coins.ToString();
     }
 
     public void GameOver()

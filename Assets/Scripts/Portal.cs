@@ -22,15 +22,31 @@ public class Portal : MonoBehaviour
             }
         }
     }
+
+    [System.Obsolete]
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!hasScored && other.CompareTag("Player"))
         {
             hasScored = true;
-            GameManager.Instance.AddScore(1); // Skor ekle
 
-            // 1 saniye sonra bu portalı yok et
-            Destroy(gameObject, 0.5f);
+            Rigidbody2D rb = other.attachedRigidbody;
+            float fallSpeed = rb.velocity.y;
+
+            int fallBonus = (fallSpeed < -5f) ? 1 : 0;
+
+            PlayerController pc = other.GetComponent<PlayerController>();
+            pc.comboCount++;
+
+            // Skor: sadece geçiş ve düşüş bonusu
+            int totalScore = 1 + fallBonus;
+            GameManager.Instance.AddScore(totalScore);
+
+            // Coin: combo kadar bonus
+            int comboCoinBonus = pc.comboCount - 1;
+            GameManager.Instance.AddCoins(1 + comboCoinBonus);
+
+            Debug.Log($"Skor: +{totalScore} | Coin: +{1 + comboCoinBonus} (Combo: {pc.comboCount})");
         }
     }
 }
