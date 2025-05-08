@@ -13,4 +13,9 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
         Debug.Log("Çıkış yapıldı.");
     }
+
+    public void OpenStore()
+    {
+        SceneManager.LoadScene("StoreScene");
+    }
 }
