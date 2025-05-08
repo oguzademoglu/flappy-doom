@@ -10,10 +10,12 @@ public class PlayerController : MonoBehaviour
     private int currentHealth;
 
     private Rigidbody2D rb;
+    private HealthUI healthUI;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        healthUI = FindAnyObjectByType<HealthUI>();
         currentHealth = maxHealth;
     }
 
@@ -52,6 +54,8 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
         Debug.Log($"currentHealth: {currentHealth}");
+
+        healthUI.UpdateHearts(currentHealth);
 
         // // Küçük bir geri tepme uygulayalım
         // Vector2 knockback = new(20f, 5f); // Hafif sola ve yukarı

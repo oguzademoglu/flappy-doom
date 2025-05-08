@@ -1,17 +1,16 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI finalScoreText;
+    public GameObject gameOverPanel;
 
     public int score = 0;
-    public TextMeshProUGUI scoreText;
-    public GameObject gameOverPanel;
+
 
     void Awake()
     {
@@ -41,6 +40,9 @@ public class GameManager : MonoBehaviour
         // Time.timeScale = 0f; // Oyunu durdur
         StartCoroutine(FreezeAfterFrame());
 
+        if (finalScoreText != null)
+            finalScoreText.text = score.ToString();
+
         // İleride: Game Over paneli göster
         gameOverPanel.SetActive(true);
     }
@@ -61,5 +63,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f; // Oyunu tekrar çalıştır
         yield return new WaitForSecondsRealtime(0.05f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
