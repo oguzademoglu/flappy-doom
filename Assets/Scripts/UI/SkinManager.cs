@@ -6,6 +6,12 @@ public class SkinManager : MonoBehaviour
     public GameObject[] playerSkins;
     public int selectedSkinIndex = 0;
 
+    void Start()
+    {
+        int savedSkin = PlayerPrefs.GetInt("SelectedSkin", 0);
+        SelectSkin(savedSkin);
+    }
+
     public void SelectSkin(int index)
     {
         selectedSkinIndex = index;
@@ -15,13 +21,9 @@ public class SkinManager : MonoBehaviour
             playerSkins[i].SetActive(i == selectedSkinIndex);
         }
 
-        PlayerPrefs.SetInt("SelectedSkin", selectedSkinIndex);
+        // PlayerPrefs.SetInt("SelectedSkin", selectedSkinIndex);
     }
 
-    void Start()
-    {
-        int savedSkin = PlayerPrefs.GetInt("SelectedSkin", 0);
-        SelectSkin(savedSkin);
-    }
+
 }
 

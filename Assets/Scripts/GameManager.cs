@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
+        PlayerPrefs.SetInt("Coins", coins);
+        PlayerPrefs.Save();
         UpdateCoinUI();
     }
 
